@@ -1,10 +1,7 @@
 import os, sys
 
-# run the user's program in our generated folders
 os.chdir('module/root_folder')
 
-
-# put your code here
 while (command := input("Input the command: ")) != "quit":
     valid_commands = {"pwd", "quit"}
     is_relative = command.startswith("cd ") and len(command) > 3 and command[3] not in {".", "\\", "/"}
