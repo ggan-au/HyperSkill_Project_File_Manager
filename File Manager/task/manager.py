@@ -29,6 +29,6 @@ def main():
             except FileNotFoundError:
                 print("The directory was not found. Try again")
         else:
-            print("Invalid Commands")
+            print("Invalid Command ma boi")
 
 main()
