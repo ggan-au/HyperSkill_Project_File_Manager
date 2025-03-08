@@ -27,7 +27,7 @@ def command_mkdir(*args):
     try:
         os.mkdir(path)
     except FileExistsError:
-        print("The directory already exists")
+        print("The directory already exist")
 
 def command_cd(*command):
     num_args = len(command)
