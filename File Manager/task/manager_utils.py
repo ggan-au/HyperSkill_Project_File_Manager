@@ -6,7 +6,17 @@ valid_commands = {"pwd",
                   "ls",
                   "rm",
                   "mv",
-                  "mkdir"}
+                  "mkdir",
+                  "cp"}
+
+rel_paths = {
+                 "..",
+}
+
+def add_trailing_slash(path):
+    if path in rel_paths:
+        return path + '/'
+    return path
 
 def sort_files(files):
     return sorted(files, key=lambda f: ("." in f, f))
@@ -27,7 +37,7 @@ def command_mkdir(*args):
     try:
         os.mkdir(path)
     except FileExistsError:
-        print("The directory already exist")
+        print("The directory already exists")
 
 def command_cd(*command):
     num_args = len(command)
@@ -55,16 +65,43 @@ def command_rm(*args):
     else:
         print("No such file or directory")
 
-def command_mv(*args):
+def command_cp(*args):
     num_args = len(args)
+
     if num_args < 3:
-        print("Specify the current name of the file or directory and the new name")
+        print("Specify the file")
+        return
+
+    if num_args > 3:
+        print("Specify the current name of the file or directory and the new location and/or name")
         return
 
     src = args[1]
     dst = args[2]
 
-    if os.path.exists(dst):
+    if os.path.exists(dst) and dst not in rel_paths:
+        print(f"{src} already exists in this directory")
+    elif os.path.exists(src):
+        src = add_trailing_slash(src)
+        dst = add_trailing_slash(dst)
+        shutil.copy(src, dst)
+    else:
+        print("No such file or directory")
+
+def command_mv(*args):
+    num_args = len(args)
+
+    if num_args != 3:
+        print("Specify the current name of the file or directory and the new location and/or name")
+        return
+
+    src = args[1]
+    dst = args[2]
+
+    src = add_trailing_slash(src)
+    dst = add_trailing_slash(dst)
+
+    if os.path.exists(dst) and not os.path.isdir(dst):
         print("The file or directory already exists")
     elif os.path.exists(src):
         shutil.move(src, dst)

@@ -7,7 +7,7 @@ def main():
     while True:
         user_input = input()
         input_list = user_input.split(" ")
-        print(input_list)
+        #print(input_list)
 
         if user_input == "quit":
             break;
@@ -26,6 +26,8 @@ def main():
                     manager_utils.command_mv(*input_list)
                 elif input_list[0] == "mkdir":
                     manager_utils.command_mkdir(*input_list)
+                elif input_list[0] == "cp":
+                    manager_utils.command_cp(*input_list)
             except FileNotFoundError:
                 print("The directory was not found. Try again")
         else:
